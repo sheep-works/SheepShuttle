@@ -1,5 +1,5 @@
 {
-  "name": "sheep-comb-monorepo",
+  "name": "sheep-shuttle",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -9,14 +9,9 @@
   "packageManager": "pnpm@11.5.1",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev:web": "pnpm --filter @sheep-family/web dev",
-    "build:web": "pnpm --filter @sheep-family/web build",
+    "cli": "pnpm --filter @sheep-family/cli run start",
     "dev:api": "pnpm --filter @sheep-family/api run dev",
     "build:api": "pnpm --filter @sheep-family/api run build",
-    "dev:desktop": "pnpm --filter @sheep-family/desktop run dev",
-    "build:desktop": "pnpm --filter @sheep-family/desktop run build",
-    "pack:desktop": "pnpm --filter @sheep-family/desktop run package",
-    "cli": "pnpm --filter @sheep-family/cli run start",
     "test": "vitest"
   },
   "devDependencies": {

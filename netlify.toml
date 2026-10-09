@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/*"
+  to = "https://lambuage.com/app/:splat"
+  status = 301
+  force = true

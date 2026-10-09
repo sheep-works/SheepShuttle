@@ -1,21 +1,11 @@
 // @ts-ignore
-import init, * as wasm from '../../web/public/pkg-web/sheep_spindle.js'
-// @ts-ignore
-import wasmUrl from '../../web/public/pkg-web/sheep_spindle_bg.wasm?url'
+import * as wasm from './pkg/sheep_spindle.js'
 
 let initialized = false
 
 export async function initWasm() {
-  if (initialized) return wasm
-  try {
-    await init(wasmUrl)
-    initialized = true
-    console.log('WASM Initialized successfully')
-    return wasm
-  } catch (e) {
-    console.error('WASM Initialization failed:', e)
-    throw e
-  }
+  initialized = true
+  return wasm
 }
 
 export function getWasm() {

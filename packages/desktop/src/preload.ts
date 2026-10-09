@@ -74,5 +74,8 @@ contextBridge.exposeInMainWorld('apiConsole', {
   },
   openExternal: (url: string) => {
     ipcRenderer.send('open-external', url);
+  },
+  executeDirect: (params: { chunk: string; prompt?: string; mode?: string }) => {
+    return ipcRenderer.invoke('execute-direct', params);
   }
 });

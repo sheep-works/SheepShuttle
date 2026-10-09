@@ -416,6 +416,52 @@ ipcMain.handle('run-greet', async () => {
   }
 });
 
+ipcMain.handle('execute-direct', async (_event, params: { chunk: string; prompt?: string; mode?: string }) => {
+  const apiKey = process.env.API_KEY_SHEEP || '';
+  const startTime = Date.now();
+  const endpoint = params.mode || 'check/user/sync';
+  const targetUrl = `http://localhost:8000/gen/${endpoint.replace(/^\//, '')}`;
+
+  try {
+    const res = await fetch(targetUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-KEY': apiKey
+      },
+      body: JSON.stringify({
+        chunk: params.chunk,
+        prompt: params.prompt || undefined
+      })
+    });
+
+    const durationMs = Date.now() - startTime;
+    if (!res.ok) {
+      const errorText = await res.text();
+      return {
+        status: 'error',
+        error: `HTTP ${res.status}: ${errorText}`,
+        durationMs
+      };
+    }
+
+    const data: any = await res.json();
+    return {
+      status: data.status || 'success',
+      result: data.result !== undefined ? data.result : JSON.stringify(data, null, 2),
+      error: data.error || null,
+      durationMs
+    };
+  } catch (err: any) {
+    const durationMs = Date.now() - startTime;
+    return {
+      status: 'error',
+      error: err.message || 'Execution failed',
+      durationMs
+    };
+  }
+});
+
 ipcMain.handle('fetch-models', async (_event, provider: string, url: string, customApiKey?: string) => {
   const apiKey = process.env.API_KEY_SHEEP || '';
   const maxRetries = 5;
